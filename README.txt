@@ -1,3 +1,7 @@
+The musicdisk is live here:
+
+https://jonassantoso.com/makepis
+
 It all began in 2003 when I wrote an Adlib tracker for MS-DOS in QuickBASIC 4.5. My own use of it turned out to be more extensive than I ever thought it would be, leading to the creation of at least the twenty‑one tunes included in this music‑'disk', of which some were featured in various netlabel releases.
 
 Sixteen years later, I finally sat down and did what I had been meaning to do for a long time. As some kind of personal digital preservation project, I ported the replay routine to C and got it to play the old tunes in the browser by compiling it to WebAssembly with Emscripten and utilizing the Emscripten port of SDL2.

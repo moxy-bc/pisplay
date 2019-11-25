@@ -12,6 +12,8 @@ The credits proper for this are:
 
 The source code for all this, the tunes, and a FreeBASIC/Windows port of the original MS-DOS program, which appears to be working perfectly with Wine, may be found in the GitHub repository.
 
+https://github.com/santosoj/pisplay
+
 The title of this release refers to the name that was chosen for the tracker module format, ‘PIS’, which does not stand for anything and was meant as an alternative spelling of the word ‘peace’. Peace and love to everyone who loves Adlib/FM/OPL music as much as I do.
 
 ―thl 20191125

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.85">	
+	<title>PisPlay</title>
+
+	<script>
+		window.addEventListener('load', function(){
+			document.getElementById('loading').style.visibility = 'hidden';
+			document.getElementById('gobutton').style.visibility = 'visible';
+		});
+	</script>
+	
+	<script type="application/javascript">		
+		function startPisPlay (el) {
+			el.style.visibility = 'hidden';
+			document.getElementById('canvas').style.background = 'transparent';
+			document.getElementById('loading').style.visibility = 'visible';
+			document.getElementById('loading').style.zIndex = -1000;
+			Module({
+				printErr: function(text) {
+						if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+						if (text.includes('WebAssembly.instantiate')) {
+							text = 'Your browser does not appear to support WebAssembly. Try a more recent browser or enable WebAssembly.';
+						} else if (text.includes('falling back to ArrayBuffer')) {
+							text = 'Hold on. WebAssembly is about...';
+						}
+						document.getElementById('loading').innerHTML = text;
+						document.getElementById('loading').style.top = "-520px";
+					},
+				canvas: (() => document.getElementById('canvas'))(),
+			})
+			.then(() => {
+				console.log('Loaded!');
+			});
+		}
+	</script>
+
+	<style>
+		#gobutton:focus {
+			border-color: #644 !important;
+		}
+		#gobutton:hover {
+			background-color: #132 !important;
+			cursor: pointer;
+		}
+		#canvas {
+			border-radius: 7px !important;
+		}
+		a {
+			color: #c88;
+		}
+		a:hover {
+			color: #eaa;
+		}
+	</style>
+	
+</head>
+<body bgcolor="#0">
+	<div style="display:flex;flex-direction:column;align-items:center">
+		<span style="font-family:monospace;font-size:24px;color:#ccc;font-weight:bold">MAKE PIS NOT LOVE</span>
+		<span style="font-family:monospace;font-size:16px;color:#bbb">The Hardliner, November '19</span>
+		<canvas id="canvas" width="640px" height="480px" style="min-width:640px;min-height:480px;border:solid 2px #644;background:#211;margin:7px 0 0 0"></canvas>
+		<button id="gobutton" onclick="startPisPlay(this)" autofocus style="width:64px;height:48px;background:#100;border:solid 2px #644;margin-top:5px;color:#ccc;font-size:24px;position:relative;top:-260px;visibility:hidden">&#x25b6;</button>
+		<div id="loading" style="max-width:640px;position:relative;top:-294px;color:#ccc">
+			Loading...
+		</div>
+		<div style="max-width:640px;position:relative;top:-60px;color:#ccc">
+			<p style="font-family:monospace;text-align:center">
+				(Click on title or use arrow up/down to navigate. Player auto&#x2011;skips after 3:30.)
+			</p>
+			<p style="text-align:justify;line-height:1.5">
+				It all began in 2003 when I wrote an Adlib tracker for MS-DOS in QuickBASIC 4.5. My own use of it turned out to be more extensive than I ever thought it would be, leading to the creation of at least the twenty&#x2011;one tunes included in this music&#x2011;'disk', of which some were featured in various netlabel releases.
+			</p>
+			<p style="text-align:justify;line-height:1.5">
+				Sixteen years later, I finally sat down and did what I had been meaning to do for a long time. As some kind of personal digital preservation project, I ported the replay routine to C and got it to play the old tunes in the browser by compiling it to WebAssembly with <a target="_blank" href="https://emscripten.org">Emscripten</a> and utilizing the Emscripten port of SDL2.
+			</p>
+			<p>
+				The credits proper for this are:
+			</p>
+			<ul>
+				<li>OPL2 emulation code&#x2015;Tatsuyuki Satoh</li>
+				<li>Replay routine and musicdisk code&#x2015;The Hardliner</li>
+				<li>Music―The Hardliner&#x02df;</li>
+			</ul>
+			<small>
+				&#x02df;‘Cannonball’ originally by The Breeders, and ‘Zeldni’ by Koji Kondo
+			</small>
+			<p style="text-align:justify;line-height:1.5">
+				The source code for all this, the tunes, and a FreeBASIC/Windows port of the original MS-DOS program, which appears to be working perfectly with <a target="_blank" href="https://winehq.org">Wine</a>, may be found in the GitHub repository.
+			</p>
+			<p>
+				<a target="_blank" href="https://github.com">https://github.com</a>
+			</p>
+			<p style="text-align:justify;line-height:1.5">
+				The title of this release refers to the name that was chosen for the tracker module format, ‘PIS’, which does not stand for anything and was meant as an alternative spelling of the word ‘peace’. Peace and love to everyone who loves Adlib/FM/OPL music as much as I do.
+			</p>
+			<p style="text-align:right;font-family:monospace">
+				&#x2015;thl&nbsp;20191125
+			</p>
+		</div>
+	</div>
+		
+	<script type="application/javascript" src="/js/pisplay.js"></script>
+</body>
+</html>

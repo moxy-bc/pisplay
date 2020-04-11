@@ -176,7 +176,7 @@ static const UINT32 KSL_TABLE[8*16]=
 #undef U
 #undef DV
 
-/* sustain lebel table (3db per step) */
+/* sustain level table (3db per step) */
 /* 0 - 15: 0, 3, 6, 9,12,15,18,21,24,27,30,33,36,39,42,93 (dB)*/
 #define SC(db) (INT32)((db*((3/EG_STEP)*(1<<ENV_BITS)))+EG_DST)
 static const INT32 SL_TABLE[16]={
@@ -222,7 +222,7 @@ static int num_lock = 0;
 
 /* work table */
 static void *cur_chip = NULL;	/* current chip point */
-/* currenct chip state */
+/* current chip state */
 /* static OPLSAMPLE  *bufL,*bufR; */
 static OPL_CH *S_CH;
 static OPL_CH *E_CH;
@@ -326,11 +326,11 @@ INLINE void OPL_KEYOFF(OPL_SLOT *SLOT)
 	}
 }
 
-/* ---------- calcrate Envelope Generator & Phase Generator ---------- */
+/* ---------- calculate Envelope Generator & Phase Generator ---------- */
 /* return : envelope output */
 INLINE UINT32 OPL_CALC_SLOT( OPL_SLOT *SLOT )
 {
-	/* calcrate envelope generator */
+	/* calculate envelope generator */
 	if( (SLOT->evc+=SLOT->evs) >= SLOT->eve )
 	{
 		switch( SLOT->evm ){
@@ -361,7 +361,7 @@ INLINE UINT32 OPL_CALC_SLOT( OPL_SLOT *SLOT )
 			break;
 		}
 	}
-	/* calcrate envelope */
+	/* calculate envelope */
 	return SLOT->TLL+ENV_CURVE[SLOT->evc>>ENV_BITS]+(SLOT->ams ? ams : 0);
 }
 
@@ -385,7 +385,7 @@ INLINE void CALC_FCSLOT(OPL_CH *CH,OPL_SLOT *SLOT)
 	if( SLOT->ksr != ksr )
 	{
 		SLOT->ksr = ksr;
-		/* attack , decay rate recalcration */
+		/* attack , decay rate recalculation */
 		SLOT->evsa = SLOT->AR[ksr];
 		SLOT->evsd = SLOT->DR[ksr];
 		SLOT->evsr = SLOT->RR[ksr];
@@ -455,9 +455,9 @@ INLINE void set_sl_rr(FM_OPL *OPL,int slot,int v)
 	if( SLOT->evm == ENV_MOD_RR ) SLOT->evs = SLOT->evsr;
 }
 
-/* operator output calcrator */
+/* operator output calculator */
 #define OP_OUT(slot,env,con)   slot->wavetable[((slot->Cnt+con)/(0x1000000/SIN_ENT))&(SIN_ENT-1)][env]
-/* ---------- calcrate one of channel ---------- */
+/* ---------- calculate one channel ---------- */
 INLINE void OPL_CALC_CH( OPL_CH *CH )
 {
 	UINT32 env_out;
@@ -472,7 +472,7 @@ INLINE void OPL_CALC_CH( OPL_CH *CH )
 		/* PG */
 		if(SLOT->vib) SLOT->Cnt += (SLOT->Incr*vib/VIB_RATE);
 		else          SLOT->Cnt += SLOT->Incr;
-		/* connectoion */
+		/* connection */
 		if(CH->FB)
 		{
 			int feedback1 = (CH->op1_out[0]+CH->op1_out[1])>>CH->FB;
@@ -501,7 +501,7 @@ INLINE void OPL_CALC_CH( OPL_CH *CH )
 	}
 }
 
-/* ---------- calcrate rythm block ---------- */
+/* ---------- calculate rythm block ---------- */
 #define WHITE_NOISE_db 6.0
 INLINE void OPL_CALC_RH( OPL_CH *CH )
 {
@@ -586,7 +586,7 @@ INLINE void OPL_CALC_RH( OPL_CH *CH )
 		outd[0] += OP_OUT(SLOT7_2,env_hh,tone8)*2;
 }
 
-/* ----------- initialize time tabls ----------- */
+/* ----------- initialize time tables ----------- */
 static void init_timetables( FM_OPL *OPL , int ARRATE , int DRRATE )
 {
 	int i;
@@ -616,7 +616,7 @@ static void init_timetables( FM_OPL *OPL , int ARRATE , int DRRATE )
 #endif
 }
 
-/* ---------- generic table initialize ---------- */
+/* ---------- generic table initialization ---------- */
 static int OPLOpenTable( void )
 {
 	int s,t;
@@ -718,7 +718,7 @@ static void OPLCloseTable( void )
 	free(VIB_TABLE);
 }
 
-/* CSM Key Controll */
+/* CSM Key Control */
 INLINE void CSMKeyControll(OPL_CH *CH)
 {
 	OPL_SLOT *slot1 = &CH->SLOT[SLOT1];
@@ -820,7 +820,7 @@ static void OPLWriteReg(FM_OPL *OPL, int r, int v)
 			}
 			return;
 #if BUILD_Y8950
-		case 0x06:		/* Key Board OUT */
+		case 0x06:		/* Keyboard OUT */
 			if(OPL->type&OPL_TYPE_KEYBOARD)
 			{
 				if(OPL->keyboardhandler_w)
@@ -1044,7 +1044,7 @@ static void OPL_UnLockTable(void)
 /*		YM3812 local section                                                   */
 /*******************************************************************************/
 
-/* ---------- update one of chip ----------- */
+/* ---------- update one chip ----------- */
 void YM3812UpdateOne(FM_OPL *OPL, INT16 *buffer, int length)
 {
     int i;
@@ -1210,8 +1210,8 @@ void OPLResetChip(FM_OPL *OPL)
 #endif
 }
 
-/* ----------  Create one of vietual YM3812 ----------       */
-/* 'rate'  is sampling rate and 'bufsiz' is the size of the  */
+/* ----------  Create one of virtual YM3812 ----------       */
+/* 'rate' is sampling rate and 'bufsiz' is the size of the   */
 FM_OPL *OPLCreate(int type, int clock, int rate)
 {
 	char *ptr;
@@ -1266,7 +1266,7 @@ FM_OPL *OPLCreate(int type, int clock, int rate)
 	return OPL;
 }
 
-/* ----------  Destroy one of vietual YM3812 ----------       */
+/* ----------  Destroy one of virtual YM3812 ----------       */
 void OPLDestroy(FM_OPL *OPL)
 {
 	if(!OPL)
